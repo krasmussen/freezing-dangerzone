@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>My Calendar</title>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.css"/>
+    </head>
+    <body>
+        <!-- We will attach the calendar to this element -->
+        <div id="calendar"></div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.min.js"></script>
+        <script>
+            (function ($) { 
+                $('#calendar').fullCalendar({
+                    events: '/api',
+                    eventDataTransform: function (rawEventData) {
+                        return {
+                            id: rawEventData.id,
+                            title: rawEventData.title,
+                            start: rawEventData.start,
+                            end: rawEventData.end,
+                            url: rawEventData.url
+                        };
+                    }
+                });
+            })(jQuery);
+        </script>
+    </body>
+</html>

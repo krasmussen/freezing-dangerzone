@@ -1,0 +1,12 @@
+# Setup DB:
+CREATE TABLE calendar(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, title CHAR(255), description TEXT, location TEXT, contact TEXT, url CHAR(255), start DATETIME, end DATETIME);
+
+# Add Example Data:
+INSERT INTO calendar(title, description, location, contact, url, start, end) VALUES ('Test Event 1', 'This is the first test event', 'Acme Hall, Room 101', 'John Smith', 'http://www.example.com', datetime('now'), datetime('now', '+1 day'));
+
+INSERT INTO calendar(title, description, location, contact, url, start, end) VALUES ('Test Event 2', 'This is the second test event', 'Venable Hall, Room 101', 'Jane Smith', 'http://www.example.com', datetime('now', '+30 minutes'), datetime('now', '+3 days'));
+
+INSERT INTO calendar(title, description, location, contact, url, start, end) VALUES ('Test Event 3', 'This is the third test event', 'Sitterson Hall, Room 200', 'Jane Smith', 'http://www.example.com', datetime('now', '+3 days'), datetime('now', '+3 days', '+50 minutes'));
+
+
+
