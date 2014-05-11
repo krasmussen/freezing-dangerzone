@@ -62,9 +62,15 @@ def db_to_json(dbresponse):
 def index():
 	return render_template("calendar.html")
 
-@app.route('/api', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET'])
 def api():
 
+	if request.method == 'POST':
+		print("post detected")
+
+	if request.method == 'GET':
+		print('get detected')
+	
 	try:
 		startTimestamp = request.args['start']
 		endTimestamp = request.args['end']

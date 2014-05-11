@@ -3,18 +3,51 @@
     <head>
         <meta charset="utf-8"/>
         <title>My Calendar</title>
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.css"/>
+        <link rel="stylesheet" href="static/fullcalendar-1.6.4/fullcalendar/fullcalendar.css"/>
+        <link rel="stylesheet" href="static/jquery-ui-1.10.4.min.css"/>
     </head>
     <body>
         <!-- We will attach the calendar to this element -->
         <div id="calendar"></div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.min.js"></script>
+        <script src="static/fullcalendar-1.6.4/lib/jquery.min.js"></script>
+        <script src="static/jquery-ui-1.10.4.min.js"></script>
+        <script src="static/fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js"></script>
+        <script src="static/moment.min.js"></script>
+        <!-- setup event details div -->
+        <div id="eventContent" title="Event Details" style="display:none;">
+            <span id="startTime"></span>
+            <span id="endTime"></span>
+            <div id="eventInfo"></div>
+            <p><strong><a id="eventLink" href="" target="_blank">Read More</a></strong></p>
+        </div>
+        <!-- setup calendar -->
         <script>
             (function ($) { 
                 $('#calendar').fullCalendar({
                     events: '/api',
+                    dayClick: function(date, allDay, jsEvent, view) {
+
+                        alert("You clicked some shit yo");
+
+                        //if (allDay) {
+                            //alert('Clicked on the entire day: ' + date);
+                        //}else{
+                            //alert('Clicked on the slot: ' + date);
+                        //}
+
+                        //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+                        //alert('Current view: ' + view.name);
+
+                        // change the day's background color just for fun
+                        //$(this).css('background-color', 'red');
+
+                    },
+                    eventRender: function (event, element) {
+                        element.attr('href', 'javascript:void(0);');
+                        element.attr('onclick', 'openModal("' + event.title + '","' + event.description + '","' + event.url + '","' + event.start + '","' + event.end + '");');
+                    },
                     eventDataTransform: function (rawEventData) {
                         return {
                             id: rawEventData.id,
@@ -26,6 +59,23 @@
                     }
                 });
             })(jQuery);
+            function openModal(title, info, url, start, end) {
+                if (start && start != 'null') {
+                    $("#startTime").html("Start: " + moment(start).format('MMMM Do YYYY, h:mm:ss a') + "<br />")
+                } else {
+                    $("#startTime").html(""); //no start (huh?) clear out previous info.
+                }
+                if (end && end != 'null')
+                {
+                    $("#endTime").html("End: " + moment(end).format('MMMM Do YYYY, h:mm:ss a') + "<br /><br />")
+                } else {
+                    $("#endTime").html(""); //no end. clear out previous info.
+                }
+                $("#eventInfo").html(info);
+                $("#eventLink").attr('href', url);
+                $("#eventContent").dialog({ modal: true, title: title, width:350 });
+            }
+
         </script>
     </body>
 </html>
